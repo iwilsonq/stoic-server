@@ -6,7 +6,7 @@ const PORT = process.env.PORT || 3000;
 
 const app = express();
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/journies');
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/stoic');
 
 app.use(express.static('public'));
 
