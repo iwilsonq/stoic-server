@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import Article from './models/articles';
+import Article from './models/article';
 
 import {
   GraphQLObjectType,
@@ -19,6 +19,13 @@ const ArticleType = new GraphQLObjectType({
     imageId: { type: GraphQLString },
     caption: { type: GraphQLString },
     content: { type: GraphQLString }
+  })
+});
+
+const CommentType = new GraphQLObjectType({
+  name: 'Comment',
+  fields: () => ({
+
   })
 });
 

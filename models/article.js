@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const Paragraph = require('./paragraph');
+
 const articleSchema = new Schema({
   title: {
     type: String,
@@ -29,25 +31,16 @@ const articleSchema = new Schema({
     type: Boolean,
     default: false
   },
-  content: {
-    type: [String],
+  sections: {
+
+  },
+  paragraphs: {
+    type: [Paragraph],
     required: true
   },
   created: {
     type: Date,
     default: Date.now
-  },
-  updated: {
-    type: Date,
-    default: Date.now
-  },
-  views: {
-    type: Number,
-    default: 0
-  },
-  likes: {
-    type: Number,
-    default: 0
   },
   comments: [{
     type: Schema.Types.ObjectId,
