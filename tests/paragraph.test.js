@@ -1,23 +1,52 @@
+const mongoose = require('mongoose');
 const Paragraph = require('../models/paragraph');
 
-beforeEach(() => {
 
+beforeAll(done => {
+  initializeTestDatabase();
+  const { paragraphs } = mongoose.connection.collections;
+  paragraphs.drop(() => done());
 });
 
-test('Paragraph has the term markup', () => {
-  const p = new Paragraph({
-    text: 'I am the first paragraph. Behold my beautiful markup among other features',
+describe('Paragraph', () => {
+  beforeEach(done => {
+    const p = new Paragraph({
+      text: 'I am a paragraph'
+    });
+
+    const m = {
+      mark: 'a',
+      start: 48,
+      end: 56
+    };
+
+    p.markups.push(m);
+
+    console.log(p);
+
+    p.save().then(() => done());
   });
 
-  const m = {
-    mark: 'strong',
-    start: 48,
-    end: 57
-  };
+  test('exists on creation', done => {
+    Paragraph.findOne({})
+      .then(p => {
+        console.log(p);
+        expect(p).toBeDefined();
+        done();
+      });
+  });
+  test('has a list of markups', () => {
 
-  console.log(p.markups);
-  p.markups.push(m);
-  console.log(p.markups);
+  });
+})
 
-  expect(p.text).toMatch(/markup/);
-});
+function initializeTestDatabase() {
+  mongoose.connect('mongodb://localhost/stoic');
+  mongoose.connection
+    .once('open', () => {
+      console.log('Connected to MongoDB');
+    })
+    .on('error', error => {
+      console.warn('Warning', error);
+    });
+}
